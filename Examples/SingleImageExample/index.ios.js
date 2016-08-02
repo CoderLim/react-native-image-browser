@@ -18,6 +18,7 @@ import {
   Animated,
 } from 'react-native';
 import ImageBrowser from './ImageBrowser';
+import Lightbox from './Lightbox/Lightbox';
 
 class SingleImageExample extends Component {
   constructor(props) {
@@ -27,7 +28,13 @@ class SingleImageExample extends Component {
  render() {
    return (
      <View style={styles.container}>
-      <ImageBrowser />
+      <Lightbox>
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={{ uri: 'http://img3.imgtn.bdimg.com/it/u=4126438489,771091236&fm=206&gp=0.jpg' }}>
+        </Image>
+      </Lightbox>
      </View>
    );
  }
@@ -40,7 +47,13 @@ var styles = StyleSheet.create({
    flexDirection: 'row',
    justifyContent: 'center',
    alignItems: 'center',
-   backgroundColor: '#F5FCFF',
+   backgroundColor: 'green',
+ },
+ image: {
+   flex: 1,
+   width: 200,
+   height: 200,
+   backgroundColor: 'white',
  },
 });
 
