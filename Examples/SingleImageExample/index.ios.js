@@ -44,14 +44,10 @@ class SingleImageExample extends Component {
 var styles = StyleSheet.create({
  container: {
    flex: 1,
-   flexDirection: 'row',
    justifyContent: 'center',
-   alignItems: 'center',
-   backgroundColor: 'green',
  },
  image: {
    flex: 1,
-   width: 200,
    height: 200,
    backgroundColor: 'white',
  },

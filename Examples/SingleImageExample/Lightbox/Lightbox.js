@@ -16,7 +16,6 @@ import LightboxOverlay from './LightboxOverlay';
 
 export default class Lightbox extends Component {
   static propTypes = {
-    backgroundColor: PropTypes.string,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
   };
@@ -33,10 +32,7 @@ export default class Lightbox extends Component {
       origin: {
         x: 0,
         y: 0,
-        width: 0,
-        height: 0,
-      }
-    };
+      }};
   }
 
   open() {
@@ -45,17 +41,13 @@ export default class Lightbox extends Component {
         isOpen: true,
         isAnimating: true,
         origin: {
-          width,
-          height,
           x: px,
           y: py,
+          width,
+          height,
         }
       });
     });
-  }
-
-  close() {
-    throw new Error('Do not use this method');
   }
 
   onClose() {

@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   View,
 } from 'react-native';
 
@@ -42,17 +43,13 @@ export default class LightboxOverlay extends Component {
       target: {
         x: 0,
         y: 0,
-        tension: 30,
-        friction: 7,
       },
       openVal: new Animated.Value(0),
     };
   }
 
   componentDidMount() {
-    if (this.props.isOpen) {
-      this.open();
-    }
+    if (this.props.isOpen) this.open();
   }
 
   open() {
@@ -64,14 +61,14 @@ export default class LightboxOverlay extends Component {
         y: 0,
       }
     });
-    Animated.spring(this.state.openVal, {
+    Animated.timing(this.state.openVal, {
       toValue: 1,
     }).start();
   }
 
   close() {
     StatusBar.setHidden(false, 'fade');
-    Animated.spring(this.state.openVal, {
+    Animated.timing(this.state.openVal, {
       toValue: 0
     }).start(() => {
       this.props.onClose();
@@ -85,18 +82,9 @@ export default class LightboxOverlay extends Component {
   }
 
   render() {
-    let {
-      isOpen,
-      origin,
-      backgroundColor,
-    } = this.props;
-
-    let {
-      isAnimating,
-      openVal,
-      target,
-    } = this.state;
-
+    let { isOpen, origin, backgroundColor, } = this.props;
+    let { isAnimating, openVal, target, } = this.state;
+    console.log(origin);
     let openStyle = [styles.open, {
       left: openVal.interpolate({inputRange: [0, 1], outputRange: [origin.x, target.x]}),
       top: openVal.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, target.y + STATUS_BAR_OFFSET]}),
@@ -105,9 +93,7 @@ export default class LightboxOverlay extends Component {
     }];
 
     let background = <Animated.View style={[styles.background, {backgroundColor: backgroundColor}]}></Animated.View>
-    let header = (<TouchableOpacity style={{alignSelf: 'flex-start'}} onPress={this.close.bind(this)}>
-                    <Text>close</Text>
-                  </TouchableOpacity>);
+    let header = null;
     let content = (
       <Animated.View style={openStyle}>
         {this.props.children}
@@ -116,9 +102,13 @@ export default class LightboxOverlay extends Component {
 
     return (
       <Modal visible={isOpen} transparent={true}>
-        {header}
-        {background}
-        {content}
+        <TouchableHighlight onPress={this.close.bind(this)} activeOpacity={1}>
+          <View>
+            {header}
+            {background}
+            {content}
+          </View>
+        </TouchableHighlight>
       </Modal>
     );
   }
@@ -131,11 +121,11 @@ const styles = StyleSheet.create({
     left: 0,
     width: WINDOW_WIDTH,
     height: WINDOW_HEIGHT,
-    backgroundColor: 'black',
   },
   open: {
     position: 'absolute',
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: 'pink',
   }
 });
