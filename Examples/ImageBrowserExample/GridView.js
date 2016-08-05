@@ -25,7 +25,10 @@ export default class GridView extends Component {
 
     React.Children.forEach(children, (item, index) => {
       images.push(
-        <TouchableHighlight key={"touch_"+index} onPress={this._itemClicked.bind(this, index)}>
+        <TouchableHighlight
+          key={"touch_"+index}
+          activeOpacity={1}
+          onPress={this._itemClicked.bind(this, index)}>
           {item}
         </TouchableHighlight>
       );
@@ -35,7 +38,7 @@ export default class GridView extends Component {
       <View style={styles.container}>
         {images}
         <Carousel
-          selectedIndex={this.state.selectedIndex}
+          firstPage={this.state.selectedIndex}
           isOpen={this.state.isOpenModal}
           children={this.props.children}
           onClose={this._closeModal.bind(this)}/>
@@ -44,7 +47,6 @@ export default class GridView extends Component {
   }
 
   _itemClicked(index: number) : void {
-    // Alert.alert('clicked!-' + index)
     this.setState({
       selectedIndex: index,
       isOpenModal: true,
