@@ -5,12 +5,12 @@
 >
 
   * 目录
-    * lightbox：参考react-native-lightbox实现了一个精简版lightbox，修改了一些细节
-    * imagebrowser：独立实现一个简单的图片浏览器
+    * 1.lightbox：参考react-native-lightbox实现了一个精简版lightbox，修改了一些细节
+    * 2.imagebrowser：独立实现一个简单的图片浏览器
 
-##lightbox：
+##1.lightbox：
 <br/>
 ![image](https://github.com/CoderGLM/react-native-image-browser/blob/master/screenshots/lightbox.gif)<br/>
 <br/>
-##imagebrowser
+##2.imagebrowser
 ![image](https://github.com/CoderGLM/react-native-image-browser/blob/master/screenshots/imagebrowser.gif)<br/>
