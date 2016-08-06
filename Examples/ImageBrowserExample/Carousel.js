@@ -30,12 +30,13 @@ export default class Carousel extends Component {
   }
 
   componentDidMount() {
-
   }
 
   render() {
+    console.log('render');
     // 滚动到GridView中选择的page
     if (!this._firstPageShowed) {
+      console.log("scrollto");
       this._timer = setTimeout(()=> {
           this._scrollView && this._scrollView.scrollTo({
             x: this.props.firstPage*WINDOW_WIDTH,
@@ -43,7 +44,7 @@ export default class Carousel extends Component {
             animated: false,
           });
           // 当GridView显示时，就会执行这里，所以不能直接赋值为true
-          this._firstPageShowed = this.isOpen;
+          this._firstPageShowed = this.props.isOpen;
         });
     }
 
@@ -84,6 +85,10 @@ export default class Carousel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpen !== this.props.isOpen) {
+      console.log('componentWillReceiveProps');
+      this._firstPageShowed = false;
+    }
   }
 
   componentWillUnmount() {
