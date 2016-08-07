@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   image: {
-    resizeMode: 'contain',
+    resizeMode: 'stretch',
     margin: 5,
     width: 100,
     height: 100,

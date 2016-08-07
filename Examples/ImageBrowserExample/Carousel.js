@@ -6,9 +6,12 @@ import {
   View,
   Dimensions,
   StyleSheet,
+  StatusBar,
   Modal,
   Text,
 } from 'react-native';
+
+import Lightbox from './Lightbox';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -27,16 +30,12 @@ export default class Carousel extends Component {
   }
 
   componentWillMount() {
-  }
-
-  componentDidMount() {
+    StatusBar.setHidden(true, 'fade');
   }
 
   render() {
-    console.log('render');
     // 滚动到GridView中选择的page
     if (!this._firstPageShowed) {
-      console.log("scrollto");
       this._timer = setTimeout(()=> {
           this._scrollView && this._scrollView.scrollTo({
             x: this.props.firstPage*WINDOW_WIDTH,
@@ -52,23 +51,19 @@ export default class Carousel extends Component {
         items = [];
 
     React.Children.forEach(children, (item, index) => {
-      let image = React.cloneElement(item, {
-            style: [item.props.style, styles.image],
-          });
       items.push(
-        <TouchableHighlight
+        <Lightbox
           key={'touch_'+index}
-          activeOpacity={1}
-          style={[styles.item]}
-          onPress={this._pressImage.bind(this)}>
-          {image}
-        </TouchableHighlight>
+          origin={this.props.origins[index]}
+          onClose={this.props.onClose}>
+          {item}
+        </Lightbox>
       );
     });
 
     return (
       <Modal visible={this.props.isOpen}>
-        <View style={{flex:1}}>
+        <View style={{flex:1,backgroundColor: 'black'}}>
           <ScrollView
             ref={(component) => {this._scrollView = component}}
             scrollEventThrottle={15}
@@ -84,6 +79,9 @@ export default class Carousel extends Component {
     );
   }
 
+  componentDidMount() {
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen !== this.props.isOpen) {
       console.log('componentWillReceiveProps');
@@ -92,23 +90,8 @@ export default class Carousel extends Component {
   }
 
   componentWillUnmount() {
+    console.log('componentWillUnmount');
     this._timer && this.clearTimeout(this._timer);
-  }
-
-  /*
-   *
-   *  Private
-   *
-   */
-  _pressImage() {
-    this.props.onClose();
-  }
-
-  _onScroll(e) {
-    let newPageNum = parseInt(e.nativeEvent.contentOffset.x/WINDOW_WIDTH+1);
-    newPageNum!=this.state.currentPage && this.setState({
-      currentPage: newPageNum,
-    });
   }
 
   /*
@@ -116,11 +99,13 @@ export default class Carousel extends Component {
    *  Events
    *
    */
-
-
+   _onScroll(e) {
+     let newPageNum = parseInt(e.nativeEvent.contentOffset.x/WINDOW_WIDTH+1);
+     newPageNum!=this.state.currentPage && this.setState({
+       currentPage: newPageNum,
+     });
+   }
 }
-
-
 
 const styles = StyleSheet.create({
   legend: {
@@ -133,16 +118,4 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'black',
   },
-  item: {
-    flex: 1,
-    position: 'relative',
-    width: WINDOW_WIDTH,
-  },
-  image: {
-    position: 'absolute',
-    margin: 0,
-    width: WINDOW_WIDTH,
-    height: WINDOW_HEIGHT,
-    backgroundColor: 'black',
-  }
 });

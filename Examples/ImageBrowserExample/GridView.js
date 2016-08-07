@@ -5,8 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  StatusBar,
   TouchableHighlight,
-  Alert,
 } from 'react-native';
 import Carousel from './Carousel';
 
@@ -16,6 +16,7 @@ export default class GridView extends Component {
     this.state = {
       isOpenModal: false,
       selectedIndex: 0,
+      origins: [],
     };
   }
 
@@ -27,6 +28,7 @@ export default class GridView extends Component {
       images.push(
         <TouchableHighlight
           key={"touch_"+index}
+          ref={"touch_ref_"+index}
           activeOpacity={1}
           onPress={this._itemClicked.bind(this, index)}>
           {item}
@@ -38,6 +40,7 @@ export default class GridView extends Component {
       <View style={styles.container}>
         {images}
         <Carousel
+          origins={this.state.origins}
           firstPage={this.state.selectedIndex}
           isOpen={this.state.isOpenModal}
           children={this.props.children}
@@ -46,14 +49,34 @@ export default class GridView extends Component {
     );
   }
 
-  _itemClicked(index: number) : void {
+  componentDidMount() {
+    this.setState({
+      origins: [],
+    });
+    // 如果不使用setTimeout，异步回调得不到正确的值
+    setTimeout(() => {
+      for (var i = 0; i < this.props.children.length; i++) {
+        this.refs["touch_ref_"+i].measure((fx, fy, width, height, px, py) => {
+          this.state.origins.push({
+            x: px,
+            y: py,
+            width,
+            height,
+          });
+        });
+      }
+    });
+  }
+
+  _itemClicked(index: number): void {
+    StatusBar.setHidden(true, 'fade');
     this.setState({
       selectedIndex: index,
       isOpenModal: true,
     });
   }
 
-  _closeModal() {
+  _closeModal(): void {
     this.setState({
       isOpenModal: false,
     });
