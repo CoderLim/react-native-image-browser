@@ -6,7 +6,6 @@ import {
   View,
   Dimensions,
   StyleSheet,
-  StatusBar,
   Modal,
   Text,
 } from 'react-native';
@@ -30,7 +29,6 @@ export default class Carousel extends Component {
   }
 
   componentWillMount() {
-    StatusBar.setHidden(true, 'fade');
   }
 
   render() {
@@ -84,13 +82,11 @@ export default class Carousel extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen !== this.props.isOpen) {
-      console.log('componentWillReceiveProps');
       this._firstPageShowed = false;
     }
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount');
     this._timer && this.clearTimeout(this._timer);
   }
 

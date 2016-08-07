@@ -63,6 +63,8 @@ export default class Lightbox extends Component {
   }
 
   componentDidMount() {
+    console.log('动画');
+    this.state.openValue.setValue(0);
     Animated.timing(this.state.openValue, {
       toValue: 1,
     }).start();
