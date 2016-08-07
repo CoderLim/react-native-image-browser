@@ -96,7 +96,7 @@ export default class Carousel extends Component {
    *
    */
    _onScroll(e) {
-     let newPageNum = parseInt(e.nativeEvent.contentOffset.x/WINDOW_WIDTH+1);
+     let newPageNum = parseInt(e.nativeEvent.contentOffset.x/WINDOW_WIDTH+1.5);
      newPageNum!=this.state.currentPage && this.setState({
        currentPage: newPageNum,
      });

@@ -63,7 +63,9 @@ export default class Lightbox extends Component {
   }
 
   componentDidMount() {
-    console.log('动画');
+    /*
+     *  需要setValue(0)，如果不添加，会有一定几率看不到动画，短暂黑屏然后显示最终图片
+     */
     this.state.openValue.setValue(0);
     Animated.timing(this.state.openValue, {
       toValue: 1,
