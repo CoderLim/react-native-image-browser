@@ -1,3 +1,7 @@
+/**
+ * Source code: https://github.com/CoderGLM/react-native-image-browser
+ * @flow
+ */
 import React, { Component } from 'react';
 import {
   View,
@@ -44,7 +48,7 @@ export default class GridView extends Component {
           firstPage={this.state.selectedIndex}
           isOpen={this.state.isOpenModal}
           children={this.props.children}
-          onClose={this._closeModal.bind(this)}/>
+          onClose={this._closeCarousel.bind(this)}/>
       </View>
     );
   }
@@ -55,6 +59,7 @@ export default class GridView extends Component {
     });
     // 如果不使用setTimeout，异步回调得不到正确的值
     setTimeout(() => {
+      // 计算没个item的origin（原始坐标大小），保存在origins里
       for (var i = 0; i < this.props.children.length; i++) {
         this.refs["touch_ref_"+i].measure((fx, fy, width, height, px, py) => {
           this.state.origins.push({
@@ -68,6 +73,11 @@ export default class GridView extends Component {
     });
   }
 
+  /*
+   *
+   *  Private
+   *
+   */
   _itemClicked(index: number): void {
     StatusBar.setHidden(true, 'fade');
     this.setState({
@@ -76,7 +86,7 @@ export default class GridView extends Component {
     });
   }
 
-  _closeModal(): void {
+  _closeCarousel(): void {
     this.setState({
       isOpenModal: false,
     });

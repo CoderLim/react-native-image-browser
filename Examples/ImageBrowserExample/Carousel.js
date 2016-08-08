@@ -1,3 +1,7 @@
+/**
+ * Source code: https://github.com/CoderGLM/react-native-image-browser
+ * @flow
+ */
 import React, { Component,  PropTypes, } from 'react';
 import {
   ScrollView,
@@ -17,18 +21,16 @@ const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 export default class Carousel extends Component {
   static propTypes = {
+    origins: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this._firstPageShowed = false;
+    this._firstPageShowed = false; // 记录是否已经显示了first page
     this.state={
-      currentPage: 1,
+      currentPage: 1, // 保存当前页码
     };
-  }
-
-  componentWillMount() {
   }
 
   render() {
@@ -77,10 +79,7 @@ export default class Carousel extends Component {
     );
   }
 
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Object): void {
     if (nextProps.isOpen !== this.props.isOpen) {
       this._firstPageShowed = false;
     }
@@ -96,6 +95,7 @@ export default class Carousel extends Component {
    *
    */
    _onScroll(e) {
+     // caculate page num
      let newPageNum = parseInt(e.nativeEvent.contentOffset.x/WINDOW_WIDTH+1.5);
      newPageNum!=this.state.currentPage && this.setState({
        currentPage: newPageNum,
