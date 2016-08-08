@@ -1,5 +1,6 @@
 /**
  * Source code: https://github.com/CoderGLM/react-native-image-browser
+ *
  * @flow
  */
 import React, { Component } from 'react';

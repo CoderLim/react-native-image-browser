@@ -62,7 +62,9 @@ export default class Carousel extends Component {
     });
 
     return (
-      <Modal visible={this.props.isOpen}>
+      <Modal
+        visible={this.props.isOpen}
+        onRequestClose={this.props.onClose}>
         <View style={{flex:1,backgroundColor: 'black'}}>
           <ScrollView
             ref={(component) => {this._scrollView = component}}
