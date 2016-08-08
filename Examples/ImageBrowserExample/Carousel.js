@@ -88,7 +88,7 @@ export default class Carousel extends Component {
   }
 
   componentWillUnmount() {
-    this._timer && this.clearTimeout(this._timer);
+    this._timer && clearTimeout(this._timer);
   }
 
   /*

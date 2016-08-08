@@ -55,11 +55,12 @@ export default class GridView extends Component {
   }
 
   componentDidMount() {
+    console.log('-------');
     this.setState({
       origins: [],
     });
     // 如果不使用setTimeout，异步回调得不到正确的值
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       // 计算没个item的origin（原始坐标大小），保存在origins里
       for (var i = 0; i < this.props.children.length; i++) {
         this.refs["touch_ref_"+i].measure((fx, fy, width, height, px, py) => {
