@@ -55,7 +55,6 @@ export default class GridView extends Component {
   }
 
   componentDidMount() {
-    console.log('-------');
     this.setState({
       origins: [],
     });

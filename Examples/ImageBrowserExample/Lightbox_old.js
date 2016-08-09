@@ -42,17 +42,10 @@ export default class Lightbox extends Component {
           style: styles.image,
         });
     let openStyle = [styles.open, {
-      left: origin.x,
-      top: origin.y,
-      width: origin.width,
-      height: origin.height,
-      transform: [{
-          translateY: openValue.interpolate({inputRange: [0, 1], outputRange: [0, -(origin.y + STATUS_BAR_OFFSET)]})
-        }, {
-          translateX: openValue.interpolate({inputRange: [0, 1], outputRange: [0, -origin.x]})
-        }, {
-          scale: openValue.interpolate({inputRange: [0, 1], outputRange: [1, WINDOW_WIDTH/origin.width]})
-        }],
+        left: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.x, 0]}),
+        top: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, STATUS_BAR_OFFSET]}),
+        width: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.width, WINDOW_WIDTH]}),
+        height: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.height, WINDOW_HEIGHT]}),
     }];
     let content = (
       <Animated.View style={openStyle}>
@@ -90,6 +83,7 @@ export default class Lightbox extends Component {
     }).start(() => {
       this.props.onClose();
     });
+
   }
 }
 
