@@ -28,7 +28,7 @@ export default class Lightbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openValue: new Animated.Value(0),
+      animator: new Animated.Value(0),
     };
   }
 
@@ -37,15 +37,22 @@ export default class Lightbox extends Component {
 
   render() {
     let { children, origin } = this.props;
-    let { openValue } = this.state;
+    let { animator } = this.state;
     let image = React.cloneElement(React.Children.only(children), {
           style: styles.image,
         });
     let openStyle = [styles.open, {
-        left: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.x, 0]}),
-        top: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, STATUS_BAR_OFFSET]}),
-        width: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.width, WINDOW_WIDTH]}),
-        height: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.height, WINDOW_HEIGHT]}),
+      left: origin.x,
+      top: origin.y,
+      width: origin.width,
+      height: origin.height,
+      transform: [{
+          translateY: animator.interpolate({inputRange: [0, 1], outputRange: [0, 0.5*WINDOW_HEIGHT-0.5*(2*origin.y + origin.height + STATUS_BAR_OFFSET)]})
+        }, {
+          translateX: animator.interpolate({inputRange: [0, 1], outputRange: [0, 0.5*WINDOW_WIDTH-0.5*(2*origin.x+origin.width)]})
+        }, {
+          scale: animator.interpolate({inputRange: [0, 1], outputRange: [1, WINDOW_WIDTH/origin.width]})
+        }],
     }];
     let content = (
       <Animated.View style={openStyle}>
@@ -66,8 +73,8 @@ export default class Lightbox extends Component {
     /*
      *  需要setValue(0)，如果不添加，会有一定几率看不到动画，短暂黑屏然后显示最终图片
      */
-    this.state.openValue.setValue(0);
-    Animated.timing(this.state.openValue, {
+    this.state.animator.setValue(0);
+    Animated.timing(this.state.animator, {
       toValue: 1,
     }).start();
   }
@@ -78,12 +85,11 @@ export default class Lightbox extends Component {
    *
    */
   _pressImage() {
-    Animated.timing(this.state.openValue, {
+    Animated.timing(this.state.animator, {
       toValue: 0,
     }).start(() => {
       this.props.onClose();
     });
-
   }
 }
 
