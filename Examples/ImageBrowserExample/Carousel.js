@@ -5,7 +5,6 @@
 import React, { Component,  PropTypes, } from 'react';
 import {
   ScrollView,
-  Image,
   TouchableHighlight,
   View,
   Dimensions,
@@ -13,7 +12,7 @@ import {
   Modal,
   Text,
 } from 'react-native';
-
+import Image from 'react-native-transformable-image';
 import Lightbox from './Lightbox';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;

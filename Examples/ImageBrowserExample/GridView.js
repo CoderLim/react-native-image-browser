@@ -9,8 +9,8 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image,
   StatusBar,
+  Image,
   TouchableHighlight,
 } from 'react-native';
 import Carousel from './Carousel';
@@ -26,29 +26,36 @@ export default class GridView extends Component {
   }
 
   render() {
-    let { children } = this.props,
-        images = [];
+    let { images } = this.props,
+        imageElems = [],
+        elems = [];
 
-    React.Children.forEach(children, (item, index) => {
-      images.push(
+    images.forEach((uri, index) => {
+      imageElems.push(
+        <Image source={{uri}} style={styles.image}/>
+      );
+    });
+
+    imageElems.forEach((img, index) => {
+      elems.push(
         <TouchableHighlight
           key={"touch_"+index}
           ref={"touch_ref_"+index}
           activeOpacity={1}
           onPress={this._itemClicked.bind(this, index)}>
-          {item}
+          {img}
         </TouchableHighlight>
       );
     });
 
     return (
       <View style={styles.container}>
-        {images}
+        {elems}
         <Carousel
           origins={this.state.origins}
           firstPage={this.state.selectedIndex}
           isOpen={this.state.isOpenModal}
-          children={this.props.children}
+          children={imageElems}
           onClose={this._closeCarousel.bind(this)}/>
       </View>
     );
@@ -61,7 +68,7 @@ export default class GridView extends Component {
     // 如果不使用setTimeout，异步回调得不到正确的值
     requestAnimationFrame(() => {
       // 计算没个item的origin（原始坐标大小），保存在origins里
-      for (var i = 0; i < this.props.children.length; i++) {
+      for (var i = 0; i < this.props.images.length; i++) {
         this.refs["touch_ref_"+i].measure((fx, fy, width, height, px, py) => {
           this.state.origins.push({
             x: px,
@@ -101,4 +108,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 5,
+  }
 });
