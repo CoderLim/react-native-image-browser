@@ -26,42 +26,43 @@ export default class GridView extends Component {
   }
 
   render() {
-    let { children } = this.props,
-        images = [];
-
-    React.Children.forEach(children, (item, index) => {
-      images.push(
+    let images = [];
+    let imgBtns = this.props.images.map((url, index) => {
+      let img = <Image source={{uri:url}} style={styles.image}/>;
+      images.push(img);
+      return (
         <TouchableHighlight
           key={"touch_"+index}
           ref={"touch_ref_"+index}
           activeOpacity={1}
           onPress={this._itemClicked.bind(this, index)}>
-          {item}
+          {img}
         </TouchableHighlight>
       );
     });
 
     return (
       <View style={styles.container}>
-        {images}
+        {imgBtns}
         <Carousel
           origins={this.state.origins}
           firstPage={this.state.selectedIndex}
           isOpen={this.state.isOpenModal}
-          children={this.props.children}
+          children={images}
           onClose={this._closeCarousel.bind(this)}/>
       </View>
     );
   }
 
   componentDidMount() {
+    console.log('-------');
     this.setState({
       origins: [],
     });
     // 如果不使用setTimeout，异步回调得不到正确的值
-    requestAnimationFrame(() => {
-      // 计算没个item的origin（原始坐标大小），保存在origins里
-      for (var i = 0; i < this.props.children.length; i++) {
+    setTimeout(() => {
+      // 计算每个item的origin（原始坐标大小），保存在origins里
+      for (var i = 0; i < this.props.images.length; i++) {
         this.refs["touch_ref_"+i].measure((fx, fy, width, height, px, py) => {
           this.state.origins.push({
             x: px,
@@ -101,4 +102,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  image: {
+    resizeMode: 'stretch',
+    margin: 5,
+    width: 100,
+    height: 100,
+    backgroundColor: 'gray',
+  }
 });

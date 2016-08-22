@@ -42,7 +42,7 @@ export default class Lightbox extends Component {
     let image = React.cloneElement(React.Children.only(children), {
           style: styles.image,
         });
-    let openStyle = [styles.open, {
+    let openStyle = this.props.origin && [styles.open, {
         left: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.x, 0]}),
         top: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, STATUS_BAR_OFFSET]}),
         width: openValue.interpolate({inputRange: [0, 1], outputRange: [origin.width, WINDOW_WIDTH]}),
