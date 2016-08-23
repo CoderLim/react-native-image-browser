@@ -5,13 +5,13 @@
 import React, { Component, PropTypes } from 'react';
 import {
   View,
-  Image,
   TouchableHighlight,
   StyleSheet,
   Dimensions,
   Animated,
   Platform,
 } from 'react-native';
+import Image from 'react-native-transformable-image';
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const WINDOW_HEIGHT = Dimensions.get("window").height;
