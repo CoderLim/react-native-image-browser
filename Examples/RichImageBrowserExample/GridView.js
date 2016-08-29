@@ -47,7 +47,8 @@ export default class GridView extends Component {
         <Lightbox
           origin={this.origins[this.state.selectedIndex]}
           onClose={this._closeLightbox.bind(this)}
-          visible={this.state.selectedIndex !== -1}>
+          visible={this.state.selectedIndex !== -1}
+          source={{uri: this.props.images[this.state.selectedIndex]}}>
           <Gallery
             style={{flex:1, backgroundColor: 'black'}}
             onSingleTapConfirmed={this._closeLightbox.bind(this)}
