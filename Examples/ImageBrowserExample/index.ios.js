@@ -36,14 +36,9 @@ class ImageBrowserExample extends Component {
             'http://pic1.nipic.com/2008-12-18/20081218175254901_2.jpg',
             'http://a.hiphotos.baidu.com/zhidao/pic/item/09fa513d269759eea57ece50b2fb43166d22df7b.jpg',
             'http://www.feizl.com/upload2007/2011_05/110505164429412.jpg',
-<<<<<<< HEAD
             'http://vipbook.sinaedge.com/bookcover/pics/124/cover_64285d83248c839d9a1e3cbf9a1c44ea.jpg',
           ]}>
         </GridView>
-=======
-            'http://vipbook.sinaedge.com/bookcover/pics/124/cover_64285d83248c839d9a1e3cbf9a1c44ea.jpg'
-          ]} />
->>>>>>> 88592bfca24e75840d1f10566351792bc972eb1d
       </View>
     );
   }

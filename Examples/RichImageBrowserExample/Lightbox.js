@@ -38,17 +38,30 @@ export default class Lightbox extends Component {
 
   render() {
     if (!this.props.visible) {
+      console.log('return null');
       return null;
     }
     let { children, origin } = this.props;
     let { animator } = this.state;
 
     let openStyle = this.props.origin && [styles.open, {
-        left: animator.interpolate({inputRange: [0, 1], outputRange: [origin.x, 0]}),
-        top: animator.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, STATUS_BAR_OFFSET]}),
-        width: animator.interpolate({inputRange: [0, 1], outputRange: [origin.width, WINDOW_WIDTH]}),
-        height: animator.interpolate({inputRange: [0, 1], outputRange: [origin.height, WINDOW_HEIGHT]}),
+        // left: animator.interpolate({inputRange: [0, 1], outputRange: [origin.x, 0]}),
+        // top: animator.interpolate({inputRange: [0, 1], outputRange: [origin.y + STATUS_BAR_OFFSET, STATUS_BAR_OFFSET]}),
+        // width: animator.interpolate({inputRange: [0, 1], outputRange: [origin.width, WINDOW_WIDTH]}),
+        // height: animator.interpolate({inputRange: [0, 1], outputRange: [origin.height, WINDOW_HEIGHT]}),
+
+        left: origin.x,
+        top: origin.y,
+        width: origin.width,
+        height: origin.height,
+        transform: [
+          {translateY: animator.interpolate({inputRange: [0, 1], outputRange: [0, 0.5*WINDOW_HEIGHT-0.5*(2*origin.y + origin.height + STATUS_BAR_OFFSET)]})},
+          {translateX: animator.interpolate({inputRange: [0, 1], outputRange: [0, 0.5*WINDOW_WIDTH-0.5*(2*origin.x+origin.width)]})},
+          {scaleX: animator.interpolate({inputRange: [0, 1], outputRange: [1, WINDOW_WIDTH/origin.width]})},
+          {scaleY: animator.interpolate({inputRange: [0, 1], outputRange: [1, WINDOW_HEIGHT/origin.height]})}
+        ]
       }];
+
     let content = (
       <Animated.View style={openStyle}>
         {this.props.children}
@@ -75,13 +88,23 @@ export default class Lightbox extends Component {
   }
 
   componentDidMount() {
-    /*
-     *  需要setValue(0)，如果不添加，会有一定几率看不到动画，短暂黑屏然后显示最终图片
-     */
-    this.state.animator.setValue(0);
-    Animated.timing(this.state.animator, {
-      toValue: 1,
-    }).start();
+    console.log('componentDidMount');
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.props.visible != newProps.visible) {
+      if (newProps.visible) {
+        /*
+         *  需要setValue(0)，如果不添加，会有一定几率看不到动画，短暂黑屏然后显示最终图片
+         */
+        this.state.animator.setValue(0);
+        Animated.timing(this.state.animator, {
+          toValue: 1,
+          duration: 1000,
+        }).start(() => {
+        });
+      }
+    }
   }
 
   /*
@@ -102,7 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: WINDOW_WIDTH,
-    backgroundColor: 'yellow',
+    backgroundColor: 'black',
   },
   open: {
     position: 'absolute',
