@@ -9,8 +9,8 @@ There are many issues to be resolved, such as Beautification code, optimization,
 Demo project is [here](./Examples).
 
 ## Usage
-1.Copy GridView.js, Carousel.js., Lightbox.js into your project, make sure putting them in same directory.<br/>
-2.Code like this:
+1. Copy GridView.js, Carousel.js., Lightbox.js into your project, make sure putting them in the same directory.<br/>
+2. Code like this:
 
 ```
  <GridView
